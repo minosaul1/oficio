@@ -100,6 +100,12 @@
         Guardar Oficio
       </button>
     </div>
+    <div style="text-align:center; margin-top:20px;">
+  <button type="button" onclick="window.location.href='/oficio/Frontend/web/oficio/historial.html'" 
+          style="padding:10px 20px; background:#3498db; color:white; border:none; cursor:pointer; margin-right:10px;">
+    🔙 Regresar
+  </button>
+  </div>
   </form>
 
 <script>
@@ -119,7 +125,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     // Cambia esta URL al endpoint que devuelva los datos de un oficio por id (en JSON)
-    const response = await fetch(`/oficio/Backend/oficio/obtener_oficio_por_id.php?id=${id}`);
+    const response = await fetch(`/oficio/Backend/oficio/obtener_oficio.php?id=${id}`);
     if (!response.ok) throw new Error('Error al obtener datos');
 
     const oficio = await response.json();
