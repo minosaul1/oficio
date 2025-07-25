@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios Profesionales</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            align-items: center;
+            max-width: 1000px;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 48px 32px;
+            width: 360px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .card::before {
+            display: none;
+        }
+
+        .card:hover::before {
+            display: none;
+        }
+
+        .card:hover {
+            transform: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            border-color: #e2e8f0;
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
+        }
+
+        .card h2 {
+            color: #1e293b;
+            font-size: 1.75rem;
+            margin-bottom: 16px;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+
+        .card p {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+
+        .card-button {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.025em;
+            min-width: 120px;
+        }
+
+        .card1 .card-icon {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2);
+        }
+
+        .card1 .card-button {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 24px;
+            }
+            
+            .card {
+                width: 100%;
+                max-width: 360px;
+            }
+        }
+
+        .title {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #1e293b;
+            font-size: 2.25rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            letter-spacing: -0.05em;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">Servicios Profesionales</h1>
+    
+    <div class="container">
+        <div class="card card1">
+            <div class="card-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4zM6.5 10.9L8 9.4l2.6 2.6L9.4 13 6.5 10.9z"/>
+                </svg>
+            </div>
+            <h2>Oficio1</h2>
+            <p>Especialista en servicios técnicos y mantenimiento. Experiencia comprobada en soluciones profesionales con atención al detalle y resultados de calidad.</p>
+            <button class="card-button" onclick="window.location.href='/oficio/Frontend/web/oficio/oficio.html'">Crear</button>
+            <button class="card-button" style="margin-left: 12px;" onclick="window.location.href='/oficio/Frontend/web/oficio/historial.html'">Historial</button>
+        </div>
+
+
+        <div class="card card2">
+            <div class="card-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+            </div>
+            <h2>Oficio2</h2>
+            <p>Experto en servicios especializados con enfoque en la excelencia. Comprometido con la innovación y la entrega de soluciones personalizadas de alto impacto.</p>
+            <button class="card-button" onclick="selectOficio('oficio2')">Explorar</button>
+        </div>
+    </div>
+
+    <script>
+        function selectOficio(oficio) {
+            alert(`Has seleccionado: ${oficio}`);
+            // Aquí puedes agregar la lógica para manejar la selección
+            console.log(`Oficio seleccionado: ${oficio}`);
+        }
+
+        // Añadir efecto de entrada a las cards
+        window.addEventListener('load', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(50px)';
+                    card.style.transition = 'all 0.6s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>

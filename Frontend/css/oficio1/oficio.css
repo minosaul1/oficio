@@ -1,0 +1,320 @@
+body {
+            margin: 0;
+            padding: 40px;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .document {
+            background: white;
+            width: 800px;
+            padding: 60px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: #e74c3c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .logo::before {
+            content: '+';
+            color: white;
+            font-size: 50px;
+            font-weight: bold;
+        }
+        
+        .organization-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .red-line {
+            width: 200px;
+            height: 3px;
+            background: #e74c3c;
+            margin: 10px auto;
+        }
+        
+        .document-info {
+            text-align: right;
+            margin-bottom: 40px;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        
+        .input-field {
+            border: none;
+            border-bottom: 1px solid #333;
+            background: transparent;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            padding: 2px 4px;
+            outline: none;
+        }
+        
+        .input-field:focus {
+            border-bottom: 2px solid #e74c3c;
+        }
+        
+        .sender-info {
+            margin-bottom: 30px;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        
+        .sender-name {
+            font-weight: bold;
+        }
+        
+        .content {
+            font-size: 11px;
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 40px;
+        }
+        
+        .office-info {
+            margin: 20px 0;
+        }
+        
+        .closing {
+            text-align: center;
+            margin: 40px 0;
+            font-size: 11px;
+        }
+        
+        .signature-section {
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .signature-line {
+            width: 300px;
+            height: 1px;
+            background: #333;
+            margin: 40px auto 20px;
+        }
+        
+        .signature-name {
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+        
+        .signature-title {
+            font-size: 10px;
+            line-height: 1.3;
+        }
+        
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 9px;
+            color: #666;
+        }
+        
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .footer-icon {
+            width: 12px;
+            height: 12px;
+            background: #e74c3c;
+        }
+
+      @media print {
+    /* Reset general para impresión */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    /* Ocultar todo el contenido por defecto */
+    body * {
+        visibility: hidden;
+    }
+    
+    /* Mostrar solo el documento y sus elementos hijos */
+    .document,
+    .document * {
+        visibility: visible;
+    }
+    
+    /* Configuración del documento para impresión */
+    .document {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 20mm !important; /* Márgenes estándar de impresión */
+        box-sizing: border-box;
+        background: white !important;
+        color: black !important;
+        font-size: 12pt; /* Tamaño de fuente apropiado para impresión */
+        line-height: 1.5;
+    }
+    
+    /* Ocultar elementos no deseados en impresión */
+    #btn-guardar,
+    .no-print,
+    .btn,
+    button,
+    .navbar,
+    .sidebar,
+    .footer,
+    .advertisement {
+        display: none !important;
+    }
+    
+    /* Control de saltos de página */
+    .document {
+        page-break-after: auto;
+        page-break-before: auto;
+        orphans: 3; /* Mínimo 3 líneas al final de página */
+        widows: 3; /* Mínimo 3 líneas al inicio de página */
+    }
+    
+    /* Evitar saltos de página dentro de elementos importantes */
+    .document h1,
+    .document h2,
+    .document h3,
+    .document h4,
+    .document h5,
+    .document h6 {
+        page-break-after: avoid;
+        page-break-inside: avoid;
+    }
+    
+    /* Configuración de párrafos */
+    .document p {
+        page-break-inside: avoid;
+        margin-bottom: 1em;
+    }
+    
+    /* Configuración de imágenes */
+    .document img {
+        max-width: 100% !important;
+        height: auto !important;
+        page-break-inside: avoid;
+    }
+    
+    /* Configuración de tablas */
+    .document table {
+        border-collapse: collapse;
+        width: 100%;
+        page-break-inside: auto;
+    }
+    
+    .document table thead {
+        display: table-header-group; /* Repetir encabezados en cada página */
+    }
+    
+    .document table tfoot {
+        display: table-footer-group;
+    }
+    
+    .document table tr {
+        page-break-inside: avoid;
+    }
+    
+    /* Configuración de enlaces */
+    .document a {
+        color: black !important;
+        text-decoration: underline;
+    }
+    
+    /* Mostrar URLs después de los enlaces (opcional) */
+    .document a[href]:after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+        color: #666;
+    }
+    
+    /* Configuración del body para impresión */
+    body {
+        margin: 0;
+        padding: 0;
+        background: white !important;
+    }
+    
+    /* Optimización para diferentes navegadores */
+    @page {
+        margin: 2cm; /* Márgenes de página */
+        size: A4; /* Tamaño de página por defecto */
+        
+        /* Ocultar encabezado y pie de página del navegador */
+        @top-left { content: ""; }
+        @top-center { content: ""; }
+        @top-right { content: ""; }
+        @bottom-left { content: ""; }
+        @bottom-center { content: ""; }
+        @bottom-right { content: ""; }
+    }
+    
+    /* Configuración específica para elementos de formulario */
+    .document input,
+    .document textarea,
+    .document select {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        color: black !important;
+    }
+    
+    /* Mejorar contraste para impresión */
+    .document {
+        -webkit-filter: contrast(1.2);
+        filter: contrast(1.2);
+    }
+}
+
+.encabezado {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#logo {
+  height: 120px;         /* Aumentamos la altura */
+  width: auto;           /* Mantiene la proporción */
+  display: inline-block;
+  object-fit: contain;   /* Asegura que no se deforme */
+}
+
+/* Opcional: Ajuste al imprimir */
+@media print {
+  #logo {
+    height: 100px;
+  }
+}

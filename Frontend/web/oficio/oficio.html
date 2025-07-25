@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cruz Roja Mexicana - Documento Oficial</title>
+  <link rel="stylesheet" href="/oficio/Frontend/css/oficio1/oficio.css">
+
+  <style>
+    @media print {
+      #btn-guardar {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <form id="form-oficio">
+    <div class="document">
+      <div class="encabezado">
+      <img src="/oficio/imagen/logo.png" alt="Logo" id="logo">
+    </div>
+
+
+      <div class="document-info">
+        OFICIO No: <strong><span id="oficio-no-texto">__________</span></strong>
+        <input type="hidden" name="oficio_no" value="">
+
+        <div style="margin-bottom: 10px;">
+          Puebla, Pue., a 
+          <input type="text" id="fecha" name="fecha" class="input-field" readonly style="border: none; outline: none;">
+        </div>
+      </div>
+
+      <div class="sender-info">
+        <input type="text" name="nombre_remitente" class="input-field sender-name" placeholder="" style="width: 300px; font-weight: bold;"><br>
+        <input type="text" name="cargo_remitente" class="input-field" placeholder="" style="width: 400px;"><br>
+        <input type="text" name="area_remitente" class="input-field" placeholder="" style="width: 300px;"><br>
+        PRESENTE
+      </div>
+
+      <div class="content">
+        Por medio del presente me dirijo a usted y para dar contestación al:
+        <div class="office-info">
+          Oficio no: 
+          <input type="text" name="oficio_ref" class="input-field" placeholder="" style="width: 150px;"><br>
+          CDI: 
+          <input type="text" name="cdi" class="input-field" placeholder="" style="width: 150px;"><br>
+          Fecha de oficio: 
+          <input type="text" name="fecha_oficio" class="input-field" placeholder="" style="width: 120px;"><br>
+          Fecha de recepción: 
+          <input type="text" name="fecha_recepcion" class="input-field" placeholder="" style="width: 120px;">
+        </div>
+
+        <p>
+          Le manifestamos que al revisar en las bitácoras de pacientes en las
+          Delegaciones locales de Puebla Capital y al interior del Estado en los diferentes
+          servicios que prestamos, <strong>NO</strong> se encontró ningún antecedente de haber brindado
+          atención médica y/o servicio alguno al
+          <input type="text" id="paciente_nombre" name="paciente_nombre" placeholder="" required style="border: none; border-bottom: 1px solid black; width: 300px;">
+        </p>
+
+        <br>
+
+        Sin otro particular de momento, reitero a usted mi atención.
+      </div>
+
+      <div class="closing">
+        ATENTAMENTE<br>
+        <em>"SEAMOS TODOS HERMANOS"</em>
+      </div>
+
+      <div class="signature-section">
+        <div class="signature-line"></div>
+        <div class="signature-name">CARLOS ERNESTO TEJADA GONZALEZ</div>
+        <div class="signature-title">
+          DIRECTOR JURIDICO ESTATAL<br>
+          CRUZ ROJA MEXICANA EN PUEBLA
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="footer-item">
+          <div class="footer-icon"></div>
+          <span>(222) 234 7942 Ext:401</span>
+        </div>
+        <div class="footer-item">
+          <div class="footer-icon"></div>
+          <span>administracion@cruzrojapuebla.mx</span>
+        </div>
+        <div class="footer-item">
+          <div class="footer-icon"></div>
+          <span>20 oriente 1002. Col. San Francisco C.P.72000 ,Puebla,Pue.<br>C.P 72140 Puebla, Pue</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+      <button id="btn-guardar" type="submit" style="padding:10px 20px; background:#e74c3c; color:white; border:none; cursor:pointer;">
+        Guardar Oficio
+      </button>
+    </div>
+  </form>
+
+<script>
+  // ✅ Establecer la fecha actual en el campo de fecha con formato "dd/mm/yyyy"
+  const fechaInput = document.getElementById('fecha');
+  const hoy = new Date();
+  const dia = String(hoy.getDate()).padStart(2, '0');
+  const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+  const anio = hoy.getFullYear();
+  const fechaFormateada = `${dia}/${mes}/${anio}`;
+  if (fechaInput) fechaInput.value = fechaFormateada;
+
+  // ✅ Manejar el envío del formulario con AJAX
+  document.getElementById("form-oficio").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    // (Opcional) Ver datos enviados en consola para debug
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(key + ': ' + value);
+    // }
+
+    fetch("/oficio/Backend/guardar_oficio.php", {
+      method: "POST",
+      body: formData
+    })
+    .then(res => res.json())
+    .then(respuesta => {
+      if (respuesta.success) {
+        // Mostrar número de oficio generado
+        document.getElementById("oficio-no-texto").textContent = respuesta.oficio_no;
+        form.querySelector('input[name="oficio_no"]').value = respuesta.oficio_no;
+
+        // Imprimir inmediatamente
+        window.print();
+      } else {
+        alert("Error al guardar el oficio: " + (respuesta.error || "Error desconocido"));
+      }
+    })
+
+    .catch(error => {
+      alert("Error de conexión con el servidor.");
+      console.error(error);
+    });
+  });
+</script>
+
+
+</body>
+</html>

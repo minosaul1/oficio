@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Oficios - Cruz Roja Mexicana</title>
+  <link rel="stylesheet" href="/oficio/Frontend/css/oficio1/historial.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📋 Gestión de Oficios</h1>
+      <p>Cruz Roja Mexicana - Delegación Puebla</p>
+    </div>
+
+    <div class="controls">
+      <div class="search-container">
+        <input type="text" class="search-input" placeholder="🔍 Buscar por número de oficio, remitente, CDI o paciente..." id="searchInput">
+      </div>
+      <button class="btn-nuevo" onclick="window.location.href='/oficio/Frontend/web/oficio/oficio.html'">
+        ➕ Nuevo Oficio
+      </button>
+    </div>
+
+    <div class="table-container">
+      <table class="table" id="oficiosTable">
+        <thead>
+          <tr>
+            <th>Oficio No.</th>
+            <th>Fecha Registro</th>
+            <th>Remitente</th>
+            <th>CDI</th>
+            <th>Fecha Oficio</th>
+            <th>Paciente</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="oficiosTableBody">
+          <!-- Los datos se cargarán aquí dinámicamente -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <button class="page-btn" onclick="cambiarPagina(-1)">« Anterior</button>
+      <span id="pageInfo">Página 1 de 1</span>
+      <button class="page-btn" onclick="cambiarPagina(1)">Siguiente »</button>
+    </div>
+
+    <div class="footer">
+      <p><strong>"SEAMOS TODOS HERMANOS"</strong> | Cruz Roja Mexicana en Puebla © 2025</p>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmación -->
+  <div id="confirmModal" class="modal">
+    <div class="modal-content">
+      <h3 style="color: #e74c3c; margin-bottom: 20px;">⚠️ Confirmar Eliminación</h3>
+      <p>¿Está seguro de que desea eliminar este oficio?</p>
+      <p><strong>Esta acción no se puede deshacer.</strong></p>
+      <div style="text-align: right; margin-top: 30px; gap: 10px; display: flex; justify-content: flex-end;">
+        <button onclick="cerrarModal()" style="padding: 10px 20px; border: 1px solid #ddd; background: white; border-radius: 5px; cursor: pointer;">Cancelar</button>
+        <button onclick="confirmarEliminacion()" style="padding: 10px 20px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer;">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Variables globales
+    let oficios = [];
+    let paginaActual = 1;
+    const oficiosPorPagina = 20;
+    let oficioAEliminar = null;
+
+    // Función para cargar los oficios desde la API
+    async function cargarOficios() {
+      try {
+        // Aquí debes reemplazar con tu endpoint real
+        const response = await fetch('/oficio/Backend/oficio/obtener_datos.php');
+        if (!response.ok) {
+          throw new Error('Error al cargar los oficios');
+        }
+        oficios = await response.json();
+        cargarTabla();
+      } catch (error) {
+        console.error('Error:', error);
+        mostrarMensajeError('Error al cargar los oficios');
+      }
+    }
+
+    function cargarTabla(data = oficios) {
+      const tbody = document.getElementById('oficiosTableBody');
+      tbody.innerHTML = '';
+
+      const inicio = (paginaActual - 1) * oficiosPorPagina;
+      const fin = inicio + oficiosPorPagina;
+      const oficiosPagina = data.slice(inicio, fin);
+
+      if (oficiosPagina.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; padding: 20px;">
+              No se encontraron oficios registrados
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      oficiosPagina.forEach(oficio => {
+        // Formatear fecha de registro
+        const fechaRegistro = new Date(oficio.fecha_registro);
+        const fechaFormateada = fechaRegistro.toLocaleDateString('es-MX') + ' ' + 
+                             fechaRegistro.toLocaleTimeString('es-MX', {hour: '2-digit', minute: '2-digit'});
+
+        const fila = `
+          <tr>
+            <td><strong>${oficio.oficio_no}</strong></td>
+            <td>${fechaFormateada}</td>
+            <td>
+              <strong>${oficio.nombre_remitente}</strong><br>
+              <small style="color: #666;">${oficio.cargo_remitente}</small>
+            </td>
+            <td>${oficio.cdi}</td>
+            <td>${oficio.fecha_oficio}</td>
+            <td>${oficio.paciente_nombre}</td>
+            <td>
+              <div class="actions">
+                <button class="btn btn-editar" onclick="editarOficio(${oficio.id})" title="Editar">
+                  ✏️
+                </button>
+                <button class="btn btn-eliminar" onclick="eliminarOficio(${oficio.id})" title="Eliminar">
+                  🗑️
+                </button>
+                <button class="btn btn-imprimir" onclick="imprimirOficio(${oficio.id})" title="Imprimir">
+                  🖨️
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+        tbody.innerHTML += fila;
+      });
+
+      actualizarPaginacion(data.length);
+    }
+
+    function actualizarPaginacion(totalOficios) {
+      const totalPaginas = Math.ceil(totalOficios / oficiosPorPagina);
+      document.getElementById('pageInfo').textContent = `Página ${paginaActual} de ${totalPaginas || 1}`;
+    }
+
+    function cambiarPagina(direccion) {
+      const totalPaginas = Math.ceil(oficios.length / oficiosPorPagina);
+      const nuevaPagina = paginaActual + direccion;
+      
+      if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
+        paginaActual = nuevaPagina;
+        cargarTabla();
+      }
+    }
+
+    function buscarOficios() {
+      const termino = document.getElementById('searchInput').value.toLowerCase();
+      const oficiosFiltrados = oficios.filter(oficio => 
+        (oficio.oficio_no && oficio.oficio_no.toLowerCase().includes(termino)) ||
+        (oficio.nombre_remitente && oficio.nombre_remitente.toLowerCase().includes(termino)) ||
+        (oficio.cdi && oficio.cdi.toString().toLowerCase().includes(termino)) ||
+        (oficio.paciente_nombre && oficio.paciente_nombre.toLowerCase().includes(termino))
+      );
+      
+      paginaActual = 1;
+      cargarTabla(oficiosFiltrados);
+    }
+
+    async function editarOficio(id) {
+      try {
+        // Aquí implementarías la lógica para obtener los datos del oficio
+        // const response = await fetch(`tu_api_endpoint/aqui/${id}`);
+        // const oficio = await response.json();
+        
+        // Ejemplo de redirección a página de edición
+        window.location.href = `/oficio/Frontend/web/oficio/editar.html?id=${id}`;
+      } catch (error) {
+        console.error('Error al editar oficio:', error);
+        mostrarMensajeError('Error al cargar el oficio para editar');
+      }
+    }
+
+    function eliminarOficio(id) {
+      oficioAEliminar = id;
+      document.getElementById('confirmModal').style.display = 'block';
+    }
+
+    async function confirmarEliminacion() {
+      if (!oficioAEliminar) return;
+      
+      try {
+        // Aquí implementarías la llamada a la API para eliminar
+        // const response = await fetch(`tu_api_endpoint/aqui/${oficioAEliminar}`, {
+        //   method: 'DELETE'
+        // });
+        
+        // if (!response.ok) {
+        //   throw new Error('Error al eliminar el oficio');
+        // }
+        
+        // Actualizar la lista después de eliminar
+        await cargarOficios();
+        cerrarModal();
+        mostrarMensajeExito('Oficio eliminado correctamente');
+      } catch (error) {
+        console.error('Error al eliminar oficio:', error);
+        mostrarMensajeError('Error al eliminar el oficio');
+      }
+    }
+
+    function cerrarModal() {
+      document.getElementById('confirmModal').style.display = 'none';
+      oficioAEliminar = null;
+    }
+
+    function imprimirOficio(id) {
+      // Ejemplo de redirección a página de impresión
+      window.open(`/imprimir-oficio.html?id=${id}`, '_blank');
+    }
+
+    function nuevoOficio() {
+      // Redirección a página de creación
+      window.location.href = '/nuevo-oficio.html';
+    }
+
+    function mostrarMensajeExito(mensaje) {
+      const mensajeElemento = document.createElement('div');
+      mensajeElemento.innerHTML = `✅ ${mensaje}`;
+      mensajeElemento.style.cssText = `
+        position: fixed; top: 20px; right: 20px; z-index: 1001;
+        background: #27ae60; color: white; padding: 15px 25px;
+        border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        animation: slideIn 0.3s ease;
+      `;
+      document.body.appendChild(mensajeElemento);
+      
+      setTimeout(() => {
+        document.body.removeChild(mensajeElemento);
+      }, 3000);
+    }
+
+    function mostrarMensajeError(mensaje) {
+      const mensajeElemento = document.createElement('div');
+      mensajeElemento.innerHTML = `❌ ${mensaje}`;
+      mensajeElemento.style.cssText = `
+        position: fixed; top: 20px; right: 20px; z-index: 1001;
+        background: #e74c3c; color: white; padding: 15px 25px;
+        border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        animation: slideIn 0.3s ease;
+      `;
+      document.body.appendChild(mensajeElemento);
+      
+      setTimeout(() => {
+        document.body.removeChild(mensajeElemento);
+      }, 3000);
+    }
+
+    // Event Listeners
+    document.getElementById('searchInput').addEventListener('input', buscarOficios);
+
+    // Cerrar modal al hacer clic fuera
+    window.onclick = function(event) {
+      const modal = document.getElementById('confirmModal');
+      if (event.target === modal) {
+        cerrarModal();
+      }
+    }
+
+    // Cargar tabla al inicializar
+    document.addEventListener('DOMContentLoaded', function() {
+      cargarOficios();
+    });
+  </script>
+</body>
+</html>
