@@ -177,7 +177,7 @@ body {
         width: 100% !important;
         max-width: none !important;
         margin: 0 !important;
-        padding: 20mm !important; /* Márgenes estándar de impresión */
+        /*padding: 20mm !important; */
         box-sizing: border-box;
         background: white !important;
         color: black !important;
@@ -192,7 +192,6 @@ body {
     button,
     .navbar,
     .sidebar,
-    .footer,
     .advertisement {
         display: none !important;
     }
@@ -270,7 +269,7 @@ body {
     
     /* Optimización para diferentes navegadores */
     @page {
-        margin: 2cm; /* Márgenes de página */
+        margin: 0cm; /* Márgenes de página */
         size: A4; /* Tamaño de página por defecto */
         
         /* Ocultar encabezado y pie de página del navegador */
@@ -298,6 +297,10 @@ body {
         -webkit-filter: contrast(1.2);
         filter: contrast(1.2);
     }
+
+      #logo {
+    height: 100px;
+  }
 }
 
 .encabezado {
@@ -310,11 +313,4 @@ body {
   width: auto;           /* Mantiene la proporción */
   display: inline-block;
   object-fit: contain;   /* Asegura que no se deforme */
-}
-
-/* Opcional: Ajuste al imprimir */
-@media print {
-  #logo {
-    height: 100px;
-  }
 }

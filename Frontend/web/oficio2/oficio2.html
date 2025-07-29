@@ -36,7 +36,7 @@
         <input type="text" name="nombre_remitente" class="input-field sender-name" placeholder="" style="width: 300px; font-weight: bold;"><br>
         <input type="text" name="cargo_remitente" class="input-field" placeholder="" style="width: 400px;"><br>
         <input type="text" name="area_remitente" class="input-field" placeholder="" style="width: 300px;"><br>
-        PRESENTE
+        
       </div>
 
       <div class="content">
@@ -53,12 +53,13 @@
         </div>
 
         <p>
-          Le manifestamos que al revisar en las bitácoras de pacientes en las
-          Delegaciones locales de Puebla Capital y al interior del Estado en los diferentes
-          servicios que prestamos, <strong>NO</strong> se encontró ningún antecedente de haber brindado
-          atención médica y/o servicio alguno al
-          <input type="text" id="paciente_nombre" name="paciente_nombre" placeholder="" required style="border: none; border-bottom: 1px solid black; width: 300px;">
+        Por medio de la presente reciba un cordial saludo, a su vez me permito hacer llegar el expediente clínico del C. 
+        <input type="text" id="paciente_nombre" name="paciente_nombre" placeholder="Nombre del paciente" required style="border: none; border-bottom: 1px solid black; width: 300px;">
+        , esto en cumplimiento del oficio signado a la institución. Agradeciendo la atención prestada al presente, quedo a sus órdenes para cualquier duda o aclaración al respecto al correo: 
+        <a href="mailto:juridico@cruzrojapuebla.mx">juridico@cruzrojapuebla.mx</a> y/o al Cel. 
+        <a href="tel:2227719891">2227719891</a>.
         </p>
+
 
         <br>
 
@@ -99,16 +100,14 @@
       <button id="btn-guardar" type="submit" style="padding:10px 20px; background:#e74c3c; color:white; border:none; cursor:pointer;">
         Guardar Oficio
       </button>
-    </div>
-    <div style="text-align:center; margin-top:20px;">
-  <button type="button" onclick="window.location.href='/oficio/Frontend/web/oficio/historial.html'" 
+      <button type="button" onclick="window.location.href='/oficio/index.html'" 
           style="padding:10px 20px; background:#3498db; color:white; border:none; cursor:pointer; margin-right:10px;">
     🔙 Regresar
   </button>
-  </div>
+    </div>
   </form>
 
-<script src="/oficio/Frontend/js/oficio/editar.js"></script>
+<script src="/oficio/Frontend/js/oficio2/oficio2.js"></script>
 
 </body>
 </html>
