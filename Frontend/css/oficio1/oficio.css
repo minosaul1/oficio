@@ -150,155 +150,112 @@ body {
             background: #e74c3c;
         }
 
-      @media print {
-    /* Reset general para impresión */
-    * {
-        -webkit-print-color-adjust: exact !important;
-        color-adjust: exact !important;
-        print-color-adjust: exact !important;
-    }
-    
-    /* Ocultar todo el contenido por defecto */
-    body * {
-        visibility: hidden;
-    }
-    
-    /* Mostrar solo el documento y sus elementos hijos */
-    .document,
-    .document * {
-        visibility: visible;
-    }
-    
-    /* Configuración del documento para impresión */
-    .document {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100% !important;
-        max-width: none !important;
-        margin: 0 !important;
-        /*padding: 20mm !important; */
-        box-sizing: border-box;
-        background: white !important;
-        color: black !important;
-        font-size: 12pt; /* Tamaño de fuente apropiado para impresión */
-        line-height: 1.5;
-    }
-    
-    /* Ocultar elementos no deseados en impresión */
-    #btn-guardar,
-    .no-print,
-    .btn,
-    button,
-    .navbar,
-    .sidebar,
-    .advertisement {
-        display: none !important;
-    }
-    
-    /* Control de saltos de página */
-    .document {
-        page-break-after: auto;
-        page-break-before: auto;
-        orphans: 3; /* Mínimo 3 líneas al final de página */
-        widows: 3; /* Mínimo 3 líneas al inicio de página */
-    }
-    
-    /* Evitar saltos de página dentro de elementos importantes */
-    .document h1,
-    .document h2,
-    .document h3,
-    .document h4,
-    .document h5,
-    .document h6 {
-        page-break-after: avoid;
-        page-break-inside: avoid;
-    }
-    
-    /* Configuración de párrafos */
-    .document p {
-        page-break-inside: avoid;
-        margin-bottom: 1em;
-    }
-    
-    /* Configuración de imágenes */
-    .document img {
-        max-width: 100% !important;
-        height: auto !important;
-        page-break-inside: avoid;
-    }
-    
-    /* Configuración de tablas */
-    .document table {
-        border-collapse: collapse;
-        width: 100%;
-        page-break-inside: auto;
-    }
-    
-    .document table thead {
-        display: table-header-group; /* Repetir encabezados en cada página */
-    }
-    
-    .document table tfoot {
-        display: table-footer-group;
-    }
-    
-    .document table tr {
-        page-break-inside: avoid;
-    }
-    
-    /* Configuración de enlaces */
-    .document a {
-        color: black !important;
-        text-decoration: underline;
-    }
-    
-    /* Mostrar URLs después de los enlaces (opcional) */
-    .document a[href]:after {
-        content: " (" attr(href) ")";
-        font-size: 0.8em;
-        color: #666;
-    }
-    
-    /* Configuración del body para impresión */
-    body {
-        margin: 0;
-        padding: 0;
-        background: white !important;
-    }
-    
-    /* Optimización para diferentes navegadores */
-    @page {
-        margin: 0cm; /* Márgenes de página */
-        size: A4; /* Tamaño de página por defecto */
-        
-        /* Ocultar encabezado y pie de página del navegador */
-        @top-left { content: ""; }
-        @top-center { content: ""; }
-        @top-right { content: ""; }
-        @bottom-left { content: ""; }
-        @bottom-center { content: ""; }
-        @bottom-right { content: ""; }
-    }
-    
-    /* Configuración específica para elementos de formulario */
-    .document input,
-    .document textarea,
-    .document select {
-        border: none !important;
-        outline: none !important;
-        box-shadow: none !important;
-        background: transparent !important;
-        color: black !important;
-    }
-    
-    /* Mejorar contraste para impresión */
-    .document {
-        -webkit-filter: contrast(1.2);
-        filter: contrast(1.2);
-    }
+@media print {
 
-      #logo {
+  /*
+ * SOLUCIÓN DEFINITIVA PARA AUTOFILL EN IMPRESIÓN
+ */
+.document input:-webkit-autofill,
+.document input:-webkit-autofill:hover, 
+.document input:-webkit-autofill:focus, 
+.document input:-webkit-autofill:active {
+    -webkit-text-fill-color: #000 !important;
+    background-color: white !important; /* Añadido para ser más explícito */
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+            box-shadow: 0 0 0 1000px white inset !important;
+    transition: background-color 5000s ease-in-out 0s; /* Hack adicional */
+}
+  /* Reset general para impresión */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* 1. ELIMINA MÁRGENES DE LA IMPRESORA */
+  /* Esto le dice al navegador que no agregue sus propios encabezados, pies de página o márgenes. */
+  @page {
+    margin: 0;
+    size: letter; /* Puedes cambiar a 'A4' si es necesario */
+  }
+
+  /* 2. ASEGURA QUE BODY Y HTML OCUPEN TODA LA PÁGINA */
+  /* Establece una base para que el contenedor del documento pueda expandirse al 100% */
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Ocultar todo el contenido por defecto */
+  body * {
+    visibility: hidden;
+  }
+  
+  /* Mostrar solo el documento y sus elementos hijos */
+  .document,
+  .document * {
+    visibility: visible;
+  }
+  
+  /* 3. CONFIGURA EL DOCUMENTO PARA QUE OCUPE TODA LA PÁGINA */
+  .document {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; /* Añadido para que ocupe toda la altura */
+    max-width: none !important;
+    margin: 0 !important;
+    
+    /* 4. AÑADE UN PADDING INTERNO SI LO NECESITAS */
+    /* Usa 'padding' para crear un margen interior y que el texto no quede pegado a los bordes. */
+    /* Ajusta los valores según el diseño de tu oficio (ej. 2cm o 20mm). */
+    padding: 2.5cm 2cm 2cm 2cm; 
+    
+    box-sizing: border-box; /* MUY IMPORTANTE: para que el padding no altere el tamaño total del 100% */
+    
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+  
+  /* Ocultar elementos no deseados en impresión */
+  #btn-guardar,
+  .no-print,
+  .btn,
+  button,
+  .navbar,
+  .sidebar {
+    display: none !important;
+  }
+  
+
+  /* Quita bordes y sombras de los inputs en la impresión */
+.document input,
+.document textarea,
+.document select {
+  border: none !important;      /* Elimina el borde */
+  outline: none !important;     /* Elimina el contorno que aparece al hacer clic */
+  box-shadow: none !important;  /* Elimina cualquier sombra */
+  background: transparent !important; /* Hace el fondo transparente */
+}
+  /* El resto de tus reglas para saltos de página, imágenes, etc., están bien y se pueden mantener */
+  .document h1,
+  .document h2,
+  .document p,
+  .document img {
+    page-break-inside: avoid;
+  }
+
+  .document img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  #logo {
     height: 100px;
   }
 }

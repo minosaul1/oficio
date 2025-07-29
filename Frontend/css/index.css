@@ -1,125 +1,136 @@
-* {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* --- Variables y Estilos Base --- */
+:root {
+  --color-crm-red: #ff3333;
+  --color-primary: #3498db;
+  --color-primary-dark: #2980b9;
+  --color-secondary: #f0f2f5;
+  --color-secondary-dark: #e1e4e8;
+  --color-text: #333;
+  --color-text-light: #555;
+  --color-border: #dee2e6;
+  --color-background: #f8f9fa;
+  --color-white: #ffffff;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 6px 10px rgba(0,0,0,0.08);
+  --border-radius: 12px;
+}
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-        }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
+}
 
-        .container {
-            display: flex;
-            gap: 40px;
-            justify-content: center;
-            align-items: center;
-            max-width: 1000px;
-        }
+/* --- Encabezado y Pie de Página --- */
+.header, .footer {
+  text-align: center;
+  padding: 20px;
+}
+.header {
+  margin: 20px 0;
+}
+.header h1 {
+  margin: 0 0 5px 0;
+  font-size: 2.5rem;
+  color: var(--color-crm-red);
+}
+.header p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+}
+.footer {
+  margin-top: 40px;
+  border-top: 1px solid var(--color-border);
+  color: #888;
+  font-size: 0.9rem;
+}
 
-        .card {
-            background: #ffffff;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 48px 32px;
-            width: 360px;
-            text-align: center;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-            position: relative;
-        }
+/* --- Contenedor de Tarjetas --- */
+main {
+  padding: 0 20px;
+}
+.cards-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch; /* Asegura que las tarjetas tengan la misma altura si el contenido varía */
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+}
 
-        .card::before {
-            display: none;
-        }
+/* --- Estilo de Tarjetas Individuales --- */
+.card {
+  background: var(--color-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  padding: 30px;
+  text-align: center;
+  flex: 1;
+  min-width: 300px; /* Ancho mínimo para que no se compriman demasiado */
+  display: flex;
+  flex-direction: column;
 
-        .card:hover::before {
-            display: none;
-        }
+  /* Estado inicial para la animación (JS añadirá la clase .visible) */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out, box-shadow 0.3s ease;
+}
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-        .card:hover {
-            transform: none;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-            border-color: #e2e8f0;
-        }
 
-        .card-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 24px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
-            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
-        }
+.card-icon {
+  margin-bottom: 15px;
+  color: var(--color-primary);
+}
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: var(--color-text);
+}
+.card p {
+  color: var(--color-text-light);
+  flex-grow: 1; /* Hace que el párrafo ocupe el espacio disponible, alineando los botones abajo */
+  margin-bottom: 25px;
+}
+.card-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Espacio entre botones */
+}
 
-        .card h2 {
-            color: #1e293b;
-            font-size: 1.75rem;
-            margin-bottom: 16px;
-            font-weight: 600;
-            letter-spacing: -0.025em;
-        }
-
-        .card p {
-            color: #64748b;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            margin-bottom: 32px;
-            font-weight: 400;
-        }
-
-        .card-button {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            letter-spacing: 0.025em;
-            min-width: 120px;
-        }
-
-        .card1 .card-icon {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2);
-        }
-
-        .card1 .card-button {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                gap: 24px;
-            }
-            
-            .card {
-                width: 100%;
-                max-width: 360px;
-            }
-        }
-
-        .title {
-            position: absolute;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #1e293b;
-            font-size: 2.25rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 60px;
-            letter-spacing: -0.05em;
-        }
+/* --- Estilo de Botones (consistente con otras páginas) --- */
+.btn {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background-color 0.2s, transform 0.1s;
+}
+.btn:hover {
+  transform: scale(1.05);
+}
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+.btn-secondary:hover {
+  background-color: var(--color-secondary-dark);
+}

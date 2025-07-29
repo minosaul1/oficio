@@ -4,74 +4,85 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestión de Oficios - Cruz Roja Mexicana</title>
+  
   <link rel="stylesheet" href="/oficio/Frontend/css/oficio1/historial.css">
+  
+  <link rel="icon" href="https://www.cruzrojapuebla.org/wp-content/uploads/2018/10/favicon.png" type="image/png">
 </head>
 <body>
+
   <div class="container">
-    <div class="header">
-      <h1>📋 Gestión</h1>
-      <!--<p>Cruz Roja Mexicana - Delegación Puebla</p>-->
-    </div>
 
-    <div class="controls">
-      <div class="search-container">
-        <input type="text" class="search-input" placeholder="🔍 Buscar por número de oficio, remitente, CDI o paciente..." id="searchInput">
+    <header class="header">
+      <h1><span aria-hidden="true">📋</span> Gestión de Oficios</h1>
+      <p>Cruz Roja Mexicana - Delegación Puebla</p>
+    </header>
+
+    <main>
+      
+      <div class="toolbar">
+        <div class="search-container">
+          <label for="searchInput" class="sr-only">Buscar por número de oficio, remitente, CDI o paciente</label>
+          <input type="text" class="search-input" id="searchInput" placeholder="🔍 Buscar por número de oficio, remitente, CDI o paciente">
+        </div>
+        <div class="actions-group">
+          <button class="btn btn-primary" onclick="window.location.href='/oficio/Frontend/web/oficio/oficio.html'">
+            <span aria-hidden="true">➕</span> Nuevo Oficio
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="window.location.href='/oficio/index.html'">
+            <span aria-hidden="true">🔙</span> Regresar
+          </button>
+        </div>
       </div>
-      <button class="btn-nuevo" onclick="window.location.href='/oficio/Frontend/web/oficio/oficio.html'">
-        ➕ Nuevo Oficio
-      </button>
-    </div>
 
-    <button type="button" onclick="window.location.href='/oficio/index.html'" 
-          style="padding:10px 20px; background:#3498db; color:white; border:none; cursor:pointer; margin-right:10px;">
-    🔙 Regresar
-  </button>
+      <div class="table-container">
+        <table class="table" id="oficiosTable">
+          <thead>
+            <tr>
+              <th>Oficio No.</th>
+              <th>Fecha Registro</th>
+              <th>Remitente</th>
+              <th>CDI</th>
+              <th>Fecha Oficio</th>
+              <th>Paciente</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="oficiosTableBody">
+            <tr>
+              <td colspan="7" class="loading-cell">Cargando oficios...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-    <div class="table-container">
-      <table class="table" id="oficiosTable">
-        <thead>
-          <tr>
-            <th>Oficio No.</th>
-            <th>Fecha Registro</th>
-            <th>Remitente</th>
-            <th>CDI</th>
-            <th>Fecha Oficio</th>
-            <th>Paciente</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody id="oficiosTableBody">
-          <!-- Los datos se cargarán aquí dinámicamente -->
-        </tbody>
-      </table>
-    </div>
+      <nav class="pagination" aria-label="Paginación de oficios">
+        <button class="btn page-btn" onclick="cambiarPagina(-1)">« Anterior</button>
+        <span id="pageInfo">Página 1 de 1</span>
+        <button class="btn page-btn" onclick="cambiarPagina(1)">Siguiente »</button>
+      </nav>
 
-    <div class="pagination">
-      <button class="page-btn" onclick="cambiarPagina(-1)">« Anterior</button>
-      <span id="pageInfo">Página 1 de 1</span>
-      <button class="page-btn" onclick="cambiarPagina(1)">Siguiente »</button>
-    </div>
-    
+    </main>
 
-    <div class="footer">
-      <p></strong>Cruz Roja Mexicana local Puebla © 2025</p>
-    </div>
+    <footer class="footer">
+      <p>&copy; 2025 Cruz Roja Mexicana, Delegación Puebla. Todos los derechos reservados.</p>
+    </footer>
   </div>
 
-  <!-- Modal de Confirmación -->
-  <div id="confirmModal" class="modal">
+  <div id="confirmModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" hidden>
     <div class="modal-content">
-      <h3 style="color: #e74c3c; margin-bottom: 20px;">⚠️ Confirmar Eliminación</h3>
-      <p>¿Está seguro de que desea eliminar este oficio?</p>
-      <p><strong>Esta acción no se puede deshacer.</strong></p>
-      <div style="text-align: right; margin-top: 30px; gap: 10px; display: flex; justify-content: flex-end;">
-        <button onclick="cerrarModal()" style="padding: 10px 20px; border: 1px solid #ddd; background: white; border-radius: 5px; cursor: pointer;">Cancelar</button>
-        <button onclick="confirmarEliminacion()" style="padding: 10px 20px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer;">Eliminar</button>
+      <h3 id="modalTitle" class="modal-title"><span aria-hidden="true">⚠️</span> Confirmar Eliminación</h3>
+      <div id="modalDescription">
+        <p>¿Está seguro de que desea eliminar este oficio? <strong>Esta acción no se puede deshacer.</strong></p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
+        <button type="button" class="btn btn-danger" onclick="confirmarEliminacion()">Eliminar</button>
       </div>
     </div>
   </div>
 
-<script src="/oficio/Frontend/js/oficio/historial.js"></script>
+  <script src="/oficio/Frontend/js/oficio/historial.js"></script>
 
 </body>
 </html>
