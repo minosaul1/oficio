@@ -22,6 +22,11 @@ body {
   background-color: var(--color-background);
   color: var(--color-text);
   line-height: 1.6;
+  background-image: url("/oficio/imagen/logo_Mesa\ de\ trabajo\ 1.png");
+   background-repeat: no-repeat;
+   background-size: 800px 800px;
+   background-position: center;
+   background-attachment: fixed;
 }
 
 .container {
