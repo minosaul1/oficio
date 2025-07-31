@@ -271,3 +271,14 @@ body {
   display: inline-block;
   object-fit: contain;   /* Asegura que no se deforme */
 }
+
+/* Estilo para cada ícono (sin el círculo) */
+.footer-item i {
+  color: #ffffff;      /* Color rojo para el icono */
+  font-size: 1.6em;     /* Aumenta el tamaño para que sea bien visible */
+  margin-right: 12px;   /* Un poco más de espacio entre el icono y el texto */
+  width: 28px;          /* Ancho fijo para que todos los textos se alineen verticalmente */
+  text-align: center;   /* Centra el icono dentro de su espacio fijo */
+  text-stroke: 2px #ff3333; 
+  -webkit-text-stroke: 1px #ff3333;
+}
