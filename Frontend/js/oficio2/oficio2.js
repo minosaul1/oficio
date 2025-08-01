@@ -37,6 +37,11 @@
 
         // Imprimir inmediatamente
         window.print();
+
+          form.reset();
+      
+          // ✅ Restablecer el texto del número de oficio a su estado inicial.
+          document.getElementById("oficio-no-texto").textContent = "__________";
       } else {
         alert("Error al guardar el oficio: " + (respuesta.error || "Error desconocido"));
       }

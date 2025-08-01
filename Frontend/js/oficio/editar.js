@@ -36,11 +36,21 @@
       document.querySelector('#paciente_nombre').value = oficio.paciente_nombre || '';
 
       if (oficio.fecha_registro) {
+        // 1. Definir el arreglo de meses en español.
+        const meses = [
+          "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+          "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ];
+
         const fecha = new Date(oficio.fecha_registro);
-        const dia = String(fecha.getDate()).padStart(2, '0');
-        const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+
+        // 2. Obtener las partes de la fecha usando el arreglo.
+        const dia = fecha.getDate();
+        const nombreMes = meses[fecha.getMonth()];
         const anio = fecha.getFullYear();
-        document.getElementById('fecha').value = `${dia}/${mes}/${anio}`;
+
+        // 3. Asignar el valor con el nuevo formato.
+        document.getElementById('fecha').value = `${dia} de ${nombreMes} de ${anio}`;
       }
 
     } catch (error) {
