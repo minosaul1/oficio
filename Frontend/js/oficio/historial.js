@@ -47,7 +47,7 @@
 
         const fila = `
           <tr>
-            <td><strong>${oficio.oficio_no}</strong></td>
+            <td><strong>${oficio.oficio_no.replace('-', '-N')}</strong></td>
             <td>${fechaFormateada}</td>
             <td>
               <strong>${oficio.nombre_remitente}</strong><br>
@@ -89,7 +89,7 @@
     function buscarOficios() {
       const termino = document.getElementById('searchInput').value.toLowerCase();
       const oficiosFiltrados = oficios.filter(oficio => 
-        (oficio.oficio_no && oficio.oficio_no.toLowerCase().includes(termino)) ||
+        (oficio.oficio_no.replace('-', '-N').toLowerCase().includes(termino)) ||
         (oficio.nombre_remitente && oficio.nombre_remitente.toLowerCase().includes(termino)) ||
         (oficio.cdi && oficio.cdi.toString().toLowerCase().includes(termino)) ||
         (oficio.paciente_nombre && oficio.paciente_nombre.toLowerCase().includes(termino))
@@ -203,3 +203,5 @@
     document.addEventListener('DOMContentLoaded', function() {
       cargarOficios();
     });
+
+    
